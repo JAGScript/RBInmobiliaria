@@ -6,18 +6,46 @@
 	
 	$hoy = date("y-m-d H:i:s");
 	
-	$id = $_POST['id'];
-	$nombre = $_POST['nombre'];
-	$identificacion = $_POST['identificacion'];
-	$email = $_POST['email'];
-	$login = $_POST['login'];
-	$perfil = $_POST['perfil'];
+	$id = $_POST['idPropiedad'];
+	$propietario = $_POST['propietario'];
+	$tipo = $_POST['tipo'];
+	$barrio = $_POST['barrio'];
+	$precio = $_POST['precio'];
+	$foto = $_POST['foto'];
 	$activo = $_POST['activo'];
+
+	$caracteristicaId = $_POST['data'];
+	$metros = $_POST['metros'];
+	$plantas = $_POST['plantas'];
+	$banios = $_POST['banios'];
+	$habitacion = $_POST['habitacion'];
+	$parqueadero = $_POST['parqueadero'];
+	$servicios = $_POST['servicios'];
+	$otros = $_POST['otros'];
 	
 	try{
-		$update = "UPDATE usuario SET us_rol_id = ?, us_login = ?, us_nombre = ?, us_identificacion = ?, us_correo = ?, us_estado = ? WHERE us_id = ?";
+		$update = "	UPDATE 	propiedad 
+					SET 	pr_barrio_id = ?, 
+							pr_tipo_id = ?, 
+							pr_propietario_id = ?, 
+							pr_precio = ?, 
+							pr_foto_principal = ?, 
+							pr_estado = ? 
+					WHERE 	pr_id = ?";
 		$upd = $gbd -> prepare($update);
-		$upd -> execute(array($perfil,$login,$nombre,$identificacion,$email,$activo,$id));
+		$upd -> execute(array($barrio,$tipo,$propietario,$precio,$foto,$activo,$id));
+
+		$update1 = "	UPDATE 	caracteristica 
+					SET 	ca_metros = ?, 
+							ca_plantas = ?, 
+							ca_banios = ?, 
+							ca_habitaciones = ?, 
+							ca_parqueaderos = ?, 
+							ca_servicios = ?, 
+							ca_otos = ? 
+					WHERE 	pr_id = ?";
+		$upd1= $gbd -> prepare($update1);
+		$upd1 -> execute(array($metros,$plantas,$banios,$habitacion,$parqueadero,$servicios,$otros,$caracteristicaId));
 		
 		echo 'ok';
 	}catch(PDOException $e){

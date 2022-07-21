@@ -2,24 +2,46 @@
 	include('control/seguridad.php');
 	require_once('ajax/zebrapag.php');
 	
-	$sql1 = "SELECT * FROM propiedad";
-	$stmt1 = $gbd -> prepare($sql1);
-	$stmt1 -> execute();
-	$total_clientes = $stmt1 -> rowCount();
-	$resultados = 20;
-	
-	$paginacion = new Zebra_Pagination();
-	$paginacion->records($total_clientes);
-	$paginacion->records_per_page($resultados);
-	
-	$paginacion->padding(false);
+	if($_SESSION['EsAdmin']){
+		$sql1 = "SELECT * FROM propiedad";
+		$stmt1 = $gbd -> prepare($sql1);
+		$stmt1 -> execute();
+		$total_clientes = $stmt1 -> rowCount();
+		$resultados = 20;
+		
+		$paginacion = new Zebra_Pagination();
+		$paginacion->records($total_clientes);
+		$paginacion->records_per_page($resultados);
+		
+		$paginacion->padding(false);
 
-	$sql2 = "SELECT *
-			FROM 	propiedad
-			JOIN 	persona ON pr_propietario_id = pe_id AND pe_tipo = 1 
-			JOIN	barrio ON pr_barrio_id = ba_id LIMIT " . (($paginacion->get_page() - 1) * $resultados) . ', ' . $resultados;
-	$stmt2 = $gbd -> prepare($sql2);
-	$stmt2 -> execute();
+		$sql2 = "SELECT *
+				FROM 	propiedad
+				JOIN 	persona ON pr_propietario_id = pe_id AND pe_tipo = 1 
+				JOIN	barrio ON pr_barrio_id = ba_id LIMIT " . (($paginacion->get_page() - 1) * $resultados) . ', ' . $resultados;
+		$stmt2 = $gbd -> prepare($sql2);
+		$stmt2 -> execute();
+	}else{
+		$sql1 = "SELECT * FROM propiedad WHERE pr_usuario_id = ?";
+		$stmt1 = $gbd -> prepare($sql1);
+		$stmt1 -> execute(array($_SESSION['id']));
+		$total_clientes = $stmt1 -> rowCount();
+		$resultados = 20;
+		
+		$paginacion = new Zebra_Pagination();
+		$paginacion->records($total_clientes);
+		$paginacion->records_per_page($resultados);
+		
+		$paginacion->padding(false);
+
+		$sql2 = "SELECT *
+				FROM 	propiedad
+				JOIN 	persona ON pr_propietario_id = pe_id AND pe_tipo = 1 
+				JOIN	barrio ON pr_barrio_id = ba_id
+				WHERE	pr_usuario_id = ? LIMIT " . (($paginacion->get_page() - 1) * $resultados) . ', ' . $resultados;
+		$stmt2 = $gbd -> prepare($sql2);
+		$stmt2 -> execute(array($_SESSION['id']));
+	}
 ?>
 <div class="row" style="margin:25px 0px 75px 0px;">
 	<div class="col-md-10 col-md-push-1" style="border:2px solid #ccc; border-radius:10px; padding:20px;">

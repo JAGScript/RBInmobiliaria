@@ -34,7 +34,9 @@
 			'listapropiedad' => array('path' => 'subpages/propiedad/lista.php', 'title' => ''),
 			'nuevopropiedad' => array('path' => 'subpages/propiedad/nuevo.php', 'title' => ''),
 			'editarpropiedad' => array('path' => 'subpages/propiedad/editar.php', 'title' => ''),
-			'addFotos' => array('path' => 'subpages/propiedad/addFotos.php', 'title' => ''));
+			'addFotos' => array('path' => 'subpages/propiedad/addFotos.php', 'title' => ''),
+			'listanotificacion' => array('path' => 'subpages/notificacion/lista.php', 'title' => ''),
+			'verpropiedad' => array('path' => 'subpages/notificacion/vista.php', 'title' => ''));
 		
 		public function __construct(){
 			$this -> CheckIfPageRequestIsLegal();

@@ -207,7 +207,7 @@
 $(document).ready(function(){
 	$('#titulopag').html('<div class="col-md-11">\
 							<h2>\
-								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;\
+								<span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;\
 								Nueva Propiedad\
 								<button class="btn btn-success pull-right" type="button" onclick="volver()">\
 									<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>\
